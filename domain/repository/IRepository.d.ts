@@ -1,4 +1,4 @@
-import { AlterNoteMessage, ObjectIdMongoose } from "../../data/database/IDao";
+import { AlterNoteMessage, ObjectIdMongoose } from "../IDao";
 import { NoteType } from "../../data/database/notesModel";
 
 export type IRepository = {

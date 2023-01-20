@@ -36,5 +36,4 @@ const NoteSchema = new Schema({
 });
 
 export type NoteType = InferSchemaType<typeof NoteSchema>;
-
 export const NoteModel = model("Note", NoteSchema);

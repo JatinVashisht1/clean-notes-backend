@@ -25,7 +25,7 @@ module.exports = {
     ],
     "no-var": "error",
     semi: "error",
-    indent: ["error", 2, { SwitchCase: 1 }],
+    indent: ["error", 2, { SwitchCase: 2 }],
     "no-multi-spaces": "error",
     "space-in-parens": "error",
     "no-multiple-empty-lines": "error",
