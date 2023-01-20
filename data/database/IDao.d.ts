@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { NoteType } from "./notesModel";
+import { NoteType } from "./NotesModel";
 
 type ObjectIdMongoose = Schema.Types.ObjectId;
 
@@ -9,16 +9,23 @@ export type AlterNoteMessage = {
 };
 
 export type IDao = {
-  createNote(userId: ObjectIdMongoose, note: NoteType): Promise<Booelan>;
+  createNote(userId: ObjectIdMongoose, note: NoteType): Promise<boolean>;
+
   getNotes(userId: ObjectIdMongoose): Promise<[NoteType]>;
-  getNoteById(userId: ObjectIdMongoose, noteId: string): Promise<NoteType>;
+
+  getNoteById(
+    userId: ObjectIdMongoose,
+    noteIdMobile: string
+  ): Promise<NoteType>;
+
   updateNote(
     userId: ObjectIdMongoose,
-    noteId: string,
+    noteIdMobile: string,
     newNote: NoteType
   ): Promise<AlterNoteMessage>;
+
   deleteNote(
     userId: ObjectIdMongoose,
-    noteId: string
+    noteIdMobile: string
   ): Promise<AlterNoteMessage>;
 };
