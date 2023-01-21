@@ -10,7 +10,7 @@ import { NoteType, NoteModel } from "./NotesModel";
 /**
  * @implements {IDao}
  * */
-export default class Dao implements IDao {
+export class Dao implements IDao {
   /** @private */
   NoteModel: typeof NoteModel;
 

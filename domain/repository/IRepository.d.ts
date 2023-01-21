@@ -11,7 +11,7 @@ export type IRepository = {
 
   /**
    * @param userId MongoDB object ID of the user.
-   * @returns {Promise<[NoteType]>}: Array of notes associated with user ID and note ID will be returned.
+   * @returns {Promise<[NoteType]>}: Array of notes associated with user ID will be returned.
    * */
   getNotes(userId: ObjectIdMongoose): Promise<NoteType[]>;
 
