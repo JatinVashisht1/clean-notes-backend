@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 import { NoteType } from "../data/database/NotesModel";
 
-type ObjectIdMongoose = Schema.Types.ObjectId;
+export type ObjectIdMongoose = Schema.Types.ObjectId;
 
 export type AlterNoteMessage = {
   acknowledged: boolean;
@@ -18,20 +18,19 @@ export type IDao = {
 
   /**
    * @param userId MongoDB object ID of the user.
-   * @returns {Promise<[NoteType]>}: Array of notes associated with user ID and note ID will be returned.
+   * @returns {Promise<[NoteType]>}: Array of notes associated with user ID will be returned.
    * */
   getNotes(userId: ObjectIdMongoose): Promise<NoteType[]>;
 
   /**
    * @param userId MongoDB object ID of the user.
    * @param noteIdMobile Mobile database ID of the note.
-   * @returns {Promise<NoteType | string>} Note associated with user ID and note ID will be returned.
-   * If note is not present, a string message will be returned.
+   * @returns {Promise<NoteType>} Note associated with user ID will be returned.
    * */
   getNoteById(
     userId: ObjectIdMongoose,
     noteIdMobile: string
-  ): Promise<NoteType | string>;
+  ): Promise<NoteType>;
 
   /**
    * @param userId MongoDB ID of the user.

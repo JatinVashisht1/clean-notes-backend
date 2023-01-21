@@ -45,7 +45,7 @@ export default class Dao implements IDao {
 
   /**
    * @param userId MongoDB object ID of the user.
-   * @returns {Promise<[NoteType]>}: Array of notes associated with user ID and note ID will be returned.
+   * @returns {Promise<[NoteType]>}: Array of notes associated with user ID will be returned.
    * */
   async getNotes(userId: Schema.Types.ObjectId): Promise<NoteType[]> {
     const userExist = await this.userExist(userId);
@@ -77,13 +77,13 @@ export default class Dao implements IDao {
   /**
    * @param userId MongoDB object ID of the user.
    * @param noteIdMobile Mobile database ID of the note.
-   * @returns {Promise<NoteType>} Note associated with user ID and note ID will be returned.
+   * @returns {Promise<NoteType>} Note associated with user ID will be returned.
    * @throws {createHttpError} createHttpError is thrown if user is not found in the database.
    * */
   async getNoteById(
     userId: Schema.Types.ObjectId,
     noteIdMobile: string
-  ): Promise<NoteType | string> {
+  ): Promise<NoteType> {
     const userExist = await this.userExist(userId);
 
     if (!userExist) {
@@ -96,7 +96,7 @@ export default class Dao implements IDao {
     }).exec();
 
     if (!note) {
-      return "No note found";
+      throw createHttpError(404, "Note not found.");
     }
 
     const noteType: NoteType = {
