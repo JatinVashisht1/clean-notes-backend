@@ -24,10 +24,6 @@ export class UpdateNoteBodyUseCase {
     noteIdMobile: string,
     newBody: string
   ): Promise<AlterNoteMessage> {
-    return await this.repo.updateNoteBody(
-      userId,
-      noteIdMobile,
-      newBody
-    );
+    return await this.repo.updateNoteBody(userId, noteIdMobile, newBody);
   }
 }

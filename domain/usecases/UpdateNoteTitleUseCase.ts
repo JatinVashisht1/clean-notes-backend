@@ -24,10 +24,6 @@ export class UpdateNoteTitleUseCase {
     noteIdMobile: string,
     newTitle: string
   ): Promise<AlterNoteMessage> {
-    return await this.repo.updateNoteTitle(
-      userId,
-      noteIdMobile,
-      newTitle
-    );
+    return await this.repo.updateNoteTitle(userId, noteIdMobile, newTitle);
   }
 }

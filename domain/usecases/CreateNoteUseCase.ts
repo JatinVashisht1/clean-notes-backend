@@ -19,6 +19,6 @@ export class CreateNoteUseCase {
    * @returns {Promise<boolean>} true if note is created false if note is not created.
    * */
   async execute(userId: string, note: NoteType): Promise<boolean> {
-    return this.repo.createNote(userId, note);
+    return await this.repo.createNote(userId, note);
   }
 }

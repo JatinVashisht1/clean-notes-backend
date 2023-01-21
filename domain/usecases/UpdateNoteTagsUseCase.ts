@@ -24,10 +24,6 @@ export class UpdateNoteTagsUseCase {
     noteIdMobile: string,
     newTags: [string]
   ): Promise<AlterNoteMessage> {
-    return await this.repo.updateNoteTags(
-      userId,
-      noteIdMobile,
-      newTags
-    );
+    return await this.repo.updateNoteTags(userId, noteIdMobile, newTags);
   }
 }
