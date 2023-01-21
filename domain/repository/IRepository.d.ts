@@ -1,6 +1,7 @@
 import { AlterNoteMessage, ObjectIdMongoose } from "../IDao";
 import { NoteType } from "../../data/database/notesModel";
 
+/**Type definition for creating a Repository object.*/
 export type IRepository = {
   /**
    * @param userId MongoDB object ID of the user.

@@ -5,7 +5,12 @@ import { Dao } from "../data/database/Dao";
 import { IRepository } from "../domain/repository/IRepository";
 import { Repository } from "../data/repository/Repository";
 
-export default function provideDependencies() {
+/**
+ * registers dependencies for `IDao` and `IRepository`.
+ *
+ * `Dao.ts` used for IDao and `Repository.ts` is used for IRepository.
+ * */
+export default function registerDependencies() {
   container.register<IDao>(CONSTANTS.DAO_DEPENDENCY, {
     useClass: Dao,
   });
@@ -15,6 +20,10 @@ export default function provideDependencies() {
   });
 }
 
+/**
+ * provides instance of `IRepository.d.ts`.
+ * @returns {Repository} is returned as instance of IRepository type.
+ * */
 export function getRepository(): IRepository {
   container.resolve<Dao>(CONSTANTS.DAO_DEPENDENCY);
   const repo = container.resolve<Repository>(CONSTANTS.REPOSITORY_DEPENDENCY);

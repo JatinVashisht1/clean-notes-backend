@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import "dotenv/config";
-import provideDependencies from "./di/provideDependencies";
+import registerDependencies from "./di/registerDependencies";
 import express from "express";
 import mongoose from "mongoose";
 import { env } from "./core/envalidUtils";
@@ -10,7 +10,7 @@ const { MONGO_URI } = env;
 
 const app = express();
 
-provideDependencies();
+registerDependencies();
 
 mongoose.connect(MONGO_URI).then(() => {
   console.log("mongoose connected");

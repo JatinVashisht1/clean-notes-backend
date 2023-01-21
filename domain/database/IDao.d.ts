@@ -8,6 +8,9 @@ export type AlterNoteMessage = {
   rowsAffected: number;
 };
 
+/**
+ * Type definition for creating a Dao object.
+ * */
 export type IDao = {
   /**
    * @param userId MongoDB object ID of the user.

@@ -9,6 +9,11 @@ import {
 } from "../../domain/database/IDao";
 import createHttpError from "http-errors";
 
+/**
+ * Repository to perform `CRUD` operations on notes.
+ * @implements {IRepository}
+ * @requires {IDao}
+ * */
 @injectable()
 @singleton()
 export class Repository implements IRepository {

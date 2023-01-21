@@ -1,5 +1,6 @@
 import { InferSchemaType, model, Schema } from "mongoose";
 
+/**Schema of the notes. Contains variables information and rules associated with them.*/
 const NoteSchema = new Schema({
   title: {
     type: String,
@@ -35,5 +36,8 @@ const NoteSchema = new Schema({
   },
 });
 
+/**`NoteType` refers to the type definition being saved in the database.*/
 export type NoteType = InferSchemaType<typeof NoteSchema>;
+
+/**MongoDB model we are working on to make operations on notes.*/
 export const NoteModel = model("Note", NoteSchema);
