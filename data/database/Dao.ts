@@ -1,15 +1,16 @@
 import createHttpError from "http-errors";
-import { Schema } from "mongoose";
 import {
   AlterNoteMessage,
   IDao,
   ObjectIdMongoose,
 } from "../../domain/database/IDao";
 import { NoteType, NoteModel } from "./NotesModel";
+import { singleton } from "tsyringe";
 
 /**
  * @implements {IDao}
  * */
+@singleton()
 export class Dao implements IDao {
   /** @private */
   NoteModel: typeof NoteModel;
@@ -24,10 +25,7 @@ export class Dao implements IDao {
    * @returns {boolean} true if note is created false if note is not created.
    * @throws {createHttpError} createHttpError is thrown if user is not found in the database.
    * */
-  async createNote(
-    userId: Schema.Types.ObjectId,
-    note: NoteType
-  ): Promise<boolean> {
+  async createNote(userId: ObjectIdMongoose, note: NoteType): Promise<boolean> {
     const userExist = await this.userExist(userId);
 
     if (!userExist) {
@@ -47,7 +45,7 @@ export class Dao implements IDao {
    * @param userId MongoDB object ID of the user.
    * @returns {Promise<[NoteType]>}: Array of notes associated with user ID will be returned.
    * */
-  async getNotes(userId: Schema.Types.ObjectId): Promise<NoteType[]> {
+  async getNotes(userId: ObjectIdMongoose): Promise<NoteType[]> {
     const userExist = await this.userExist(userId);
 
     if (!userExist) {
@@ -81,10 +79,12 @@ export class Dao implements IDao {
    * @throws {createHttpError} createHttpError is thrown if user is not found in the database.
    * */
   async getNoteById(
-    userId: Schema.Types.ObjectId,
+    userId: ObjectIdMongoose,
     noteIdMobile: string
   ): Promise<NoteType> {
     const userExist = await this.userExist(userId);
+
+    console.log(`request coming at dao`);
 
     if (!userExist) {
       throw createHttpError(404, "User not found.");
@@ -92,8 +92,10 @@ export class Dao implements IDao {
 
     const note = await this.NoteModel.findOne({
       savedBy: userId,
-      noteIdMobile: noteIdMobile,
+      noteIdMobile,
     }).exec();
+
+    console.log(`note returned is ${note}`);
 
     if (!note) {
       throw createHttpError(404, "Note not found.");
@@ -120,7 +122,7 @@ export class Dao implements IDao {
    * @override
    * */
   async updateNote(
-    userId: Schema.Types.ObjectId,
+    userId: ObjectIdMongoose,
     noteIdMobile: string,
     newNote: NoteType
   ): Promise<AlterNoteMessage> {
@@ -132,7 +134,7 @@ export class Dao implements IDao {
 
     const note = await this.NoteModel.findOne({
       savedBy: userId,
-      noteIdMobile: noteIdMobile,
+      noteIdMobile,
     })
       .update(newNote)
       .exec();
@@ -166,7 +168,7 @@ export class Dao implements IDao {
    * @override
    * */
   async deleteNote(
-    userId: Schema.Types.ObjectId,
+    userId: ObjectIdMongoose,
     noteIdMobile: string
   ): Promise<AlterNoteMessage> {
     const userExist = await this.userExist(userId);
@@ -177,7 +179,7 @@ export class Dao implements IDao {
 
     const noteDb = await this.NoteModel.findOne({
       savedBy: userId,
-      noteIdMobile: noteIdMobile,
+      noteIdMobile,
     }).exec();
 
     if (!noteDb) {
@@ -186,7 +188,7 @@ export class Dao implements IDao {
 
     const deleteResponse = await this.NoteModel.deleteOne({
       savedBy: userId,
-      noteIdMobile: noteIdMobile,
+      noteIdMobile,
     }).exec();
 
     return {
@@ -201,7 +203,7 @@ export class Dao implements IDao {
    * */
   async userExist(userId: ObjectIdMongoose): Promise<boolean> {
     // TODO: 'change this to find user from UserModel later'
-    const user = await this.NoteModel.find({ savedBy: userId }).exec();
+    const user = await this.NoteModel.findOne({ savedBy: userId }).exec();
 
     if (!user) {
       return false;

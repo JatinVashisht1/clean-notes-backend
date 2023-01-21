@@ -1,6 +1,6 @@
 import { IRepository } from "../../domain/repository/IRepository";
 import { NoteType } from "../database/NotesModel";
-import { inject, injectable } from "tsyringe";
+import { inject, injectable, singleton } from "tsyringe";
 import { CONSTANTS } from "../../core/constants";
 import {
   AlterNoteMessage,
@@ -10,6 +10,7 @@ import {
 import createHttpError from "http-errors";
 
 @injectable()
+@singleton()
 export class Repository implements IRepository {
   constructor(@inject(CONSTANTS.DAO_DEPENDENCY) private dao: IDao) {}
 
@@ -47,6 +48,7 @@ export class Repository implements IRepository {
     userId: ObjectIdMongoose,
     noteIdMobile: string
   ): Promise<NoteType> {
+    console.log(`request coming at getNoteById repo`);
     const result = await this.dao.getNoteById(userId, noteIdMobile);
 
     return result;

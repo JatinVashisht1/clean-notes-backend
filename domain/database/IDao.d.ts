@@ -1,7 +1,7 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 import { NoteType } from "../data/database/NotesModel";
 
-export type ObjectIdMongoose = Schema.Types.ObjectId;
+export type ObjectIdMongoose = mongoose.Types.ObjectId;
 
 export type AlterNoteMessage = {
   acknowledged: boolean;
