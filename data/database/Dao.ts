@@ -1,11 +1,9 @@
 import createHttpError from "http-errors";
-import {
-  AlterNoteMessage,
-  IDao,
-  ObjectIdMongoose,
-} from "../../domain/database/IDao";
+import { AlterNoteMessage, IDao } from "../../domain/database/IDao";
 import { NoteType, NoteModel } from "./NotesModel";
 import { singleton } from "tsyringe";
+import mongoose from "mongoose";
+import { isValidObjectId } from "../../core/mongooseUtils";
 
 /**
  * @implements {IDao}
@@ -20,13 +18,17 @@ export class Dao implements IDao {
   }
 
   /**
-   * @param userId MongoDB object ID of the user.
+   * @param userId Database object ID of the user.
    * @param note Note of type NoteType that user wants to save.
    * @returns {boolean} true if note is created false if note is not created.
    * @throws {createHttpError} createHttpError is thrown if user is not found in the database.
    * */
-  async createNote(userId: ObjectIdMongoose, note: NoteType): Promise<boolean> {
-    const userExist = await this.userExist(userId);
+  async createNote(userId: string, note: NoteType): Promise<boolean> {
+    isValidObjectId(userId);
+
+    const userIdMongoose = new mongoose.Types.ObjectId(userId);
+
+    const userExist = await this.userExist(userIdMongoose);
 
     if (!userExist) {
       throw createHttpError(404, "User not found.");
@@ -42,11 +44,15 @@ export class Dao implements IDao {
   }
 
   /**
-   * @param userId MongoDB object ID of the user.
+   * @param userId Database object ID of the user.
    * @returns {Promise<[NoteType]>}: Array of notes associated with user ID will be returned.
    * */
-  async getNotes(userId: ObjectIdMongoose): Promise<NoteType[]> {
-    const userExist = await this.userExist(userId);
+  async getNotes(userId: string): Promise<NoteType[]> {
+    isValidObjectId(userId);
+
+    const userIdMongoose = new mongoose.Types.ObjectId(userId);
+
+    const userExist = await this.userExist(userIdMongoose);
 
     if (!userExist) {
       throw createHttpError(404, "User not found.");
@@ -73,18 +79,17 @@ export class Dao implements IDao {
   }
 
   /**
-   * @param userId MongoDB object ID of the user.
+   * @param userId Database object ID of the user.
    * @param noteIdMobile Mobile database ID of the note.
    * @returns {Promise<NoteType>} Note associated with user ID will be returned.
    * @throws {createHttpError} createHttpError is thrown if user is not found in the database.
    * */
-  async getNoteById(
-    userId: ObjectIdMongoose,
-    noteIdMobile: string
-  ): Promise<NoteType> {
-    const userExist = await this.userExist(userId);
+  async getNoteById(userId: string, noteIdMobile: string): Promise<NoteType> {
+    isValidObjectId(userId);
 
-    console.log(`request coming at dao`);
+    const userIdMongoose = new mongoose.Types.ObjectId(userId);
+
+    const userExist = await this.userExist(userIdMongoose);
 
     if (!userExist) {
       throw createHttpError(404, "User not found.");
@@ -114,7 +119,7 @@ export class Dao implements IDao {
   }
 
   /**
-   * @param userId MongoDB ID of the user.
+   * @param userId Database ID of the user.
    * @param noteIdMobile Mobile database ID of the note.
    * @param newNote Updated note that will be saved.
    * @returns {Promise<AlterNoteMessage>} Update message of type AlterNoteMessage.
@@ -122,11 +127,15 @@ export class Dao implements IDao {
    * @override
    * */
   async updateNote(
-    userId: ObjectIdMongoose,
+    userId: string,
     noteIdMobile: string,
     newNote: NoteType
   ): Promise<AlterNoteMessage> {
-    const userExist = await this.userExist(userId);
+    isValidObjectId(userId);
+
+    const userIdMongoose = new mongoose.Types.ObjectId(userId);
+
+    const userExist = await this.userExist(userIdMongoose);
 
     if (!userExist) {
       throw createHttpError(404, "User not found.");
@@ -161,17 +170,21 @@ export class Dao implements IDao {
   }
 
   /**
-   * @param userId MongoDB ID of the user.
+   * @param userId Database ID of the user.
    * @param noteIdMobile Mobile database ID of the note.
    * @returns {Promise<AlterNoteMessage>} Update message of the type AlterNoteMessage.
    * @throws {createHttpError} createHttpError is thrown if either note or user is not found in the database.
    * @override
    * */
   async deleteNote(
-    userId: ObjectIdMongoose,
+    userId: string,
     noteIdMobile: string
   ): Promise<AlterNoteMessage> {
-    const userExist = await this.userExist(userId);
+    isValidObjectId(userId);
+
+    const userIdMongoose = new mongoose.Types.ObjectId(userId);
+
+    const userExist = await this.userExist(userIdMongoose);
 
     if (!userExist) {
       throw createHttpError(404, "User not found.");
@@ -198,10 +211,11 @@ export class Dao implements IDao {
   }
 
   /**
-   * @param userId MongoDB ID of the user.
+   * @experimental
+   * @param userId Database ID of the user.
    * @returns {boolean} true if user exist in database false if user does not exist in database.
    * */
-  async userExist(userId: ObjectIdMongoose): Promise<boolean> {
+  async userExist(userId: mongoose.Types.ObjectId): Promise<boolean> {
     // TODO: 'change this to find user from UserModel later'
     const user = await this.NoteModel.findOne({ savedBy: userId }).exec();
 
