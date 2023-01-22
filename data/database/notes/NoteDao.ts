@@ -1,15 +1,18 @@
 import createHttpError from "http-errors";
-import { AlterNoteMessage, IDao } from "../../domain/database/IDao";
+import {
+  AlterNoteMessage,
+  INoteDao,
+} from "../../../domain/database/notes/INoteDao";
 import { NoteType, NoteModel } from "./NotesModel";
 import { singleton } from "tsyringe";
 import mongoose from "mongoose";
-import { isValidObjectId } from "../../core/mongooseUtils";
+import { isValidObjectId } from "../../../core/mongooseUtils";
 
 /**
  * @implements {IDao}
  * */
 @singleton()
-export class Dao implements IDao {
+export class NoteDao implements INoteDao {
   /** @private */
   NoteModel: typeof NoteModel;
 

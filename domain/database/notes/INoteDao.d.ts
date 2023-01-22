@@ -6,9 +6,9 @@ export type AlterNoteMessage = {
 };
 
 /**
- * Type definition for creating a Dao object.
+ * Type definition for creating a Note Dao object.
  * */
-export type IDao = {
+export type INoteDao = {
   /**
    * @param userId Database object ID of the user.
    * @param note Note of type NoteType that user wants to save.

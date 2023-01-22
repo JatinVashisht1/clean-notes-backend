@@ -1,7 +1,7 @@
 import { injectable, singleton, inject } from "tsyringe";
 import { CONSTANTS } from "../../core/constants";
-import { IRepository } from "../repository/IRepository";
-import { AlterNoteMessage } from "../database/IDao";
+import { AlterNoteMessage } from "../database/notes/INoteDao";
+import { INoteRepository } from "../repository/notes/INoteRepository";
 
 /**
  * Use Case class to delete a note.
@@ -10,7 +10,7 @@ import { AlterNoteMessage } from "../database/IDao";
 @singleton()
 export class DeleteNoteUseCase {
   constructor(
-    @inject(CONSTANTS.REPOSITORY_DEPENDENCY) private repo: IRepository
+    @inject(CONSTANTS.NOTE_REPOSITORY_DEPENDENCY) private repo: INoteRepository
   ) {}
 
   /**

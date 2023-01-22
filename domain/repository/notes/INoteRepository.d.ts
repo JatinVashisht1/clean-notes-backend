@@ -4,7 +4,7 @@ import { NoteType } from "../../data/database/notesModel";
 /**
  * Type definition for creating a Repository object.
  * */
-export type IRepository = {
+export type INoteRepository = {
   /**
    * @param userId Database object ID of the user.
    * @param note Note of type NoteType that user wants to save.

@@ -1,8 +1,11 @@
-import { IRepository } from "../../domain/repository/IRepository";
-import { NoteType } from "../database/NotesModel";
+import { INoteRepository } from "../../domain/repository/notes/INoteRepository";
+import { NoteType } from "../../data/database/notes/NotesModel";
 import { inject, injectable, singleton } from "tsyringe";
 import { CONSTANTS } from "../../core/constants";
-import { AlterNoteMessage, IDao } from "../../domain/database/IDao";
+import {
+  AlterNoteMessage,
+  INoteDao,
+} from "../../domain/database/notes/INoteDao";
 import createHttpError from "http-errors";
 
 /**
@@ -12,8 +15,8 @@ import createHttpError from "http-errors";
  * */
 @injectable()
 @singleton()
-export class Repository implements IRepository {
-  constructor(@inject(CONSTANTS.DAO_DEPENDENCY) private dao: IDao) {}
+export class NoteRepository implements INoteRepository {
+  constructor(@inject(CONSTANTS.NOTE_DAO_DEPENDENCY) private dao: INoteDao) {}
 
   /**
    * @param userId Database object ID of the user.

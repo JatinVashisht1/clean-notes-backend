@@ -1,7 +1,7 @@
 import { inject, injectable, singleton } from "tsyringe";
 import { CONSTANTS } from "../../core/constants";
-import { IRepository } from "../repository/IRepository";
-import { NoteType } from "../../data/database/NotesModel";
+import { INoteRepository } from "../repository/notes/INoteRepository";
+import { NoteType } from "../../data/database/notes/NotesModel";
 
 /**
  * Use Case class to create new note.
@@ -10,7 +10,7 @@ import { NoteType } from "../../data/database/NotesModel";
 @singleton()
 export class CreateNoteUseCase {
   constructor(
-    @inject(CONSTANTS.REPOSITORY_DEPENDENCY) private repo: IRepository
+    @inject(CONSTANTS.NOTE_REPOSITORY_DEPENDENCY) private repo: INoteRepository
   ) {}
 
   /**

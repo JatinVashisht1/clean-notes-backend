@@ -1,8 +1,8 @@
 import { inject, injectable, singleton } from "tsyringe";
 import { CONSTANTS } from "../../core/constants";
-import { IRepository } from "../repository/IRepository";
-import { NoteType } from "../../data/database/NotesModel";
-import { AlterNoteMessage } from "../database/IDao";
+import { INoteRepository } from "../repository/notes/INoteRepository";
+import { NoteType } from "../../data/database/notes/NotesModel";
+import { AlterNoteMessage } from "../database/notes/INoteDao";
 
 /**
  * Use Case class to update a note.
@@ -11,7 +11,7 @@ import { AlterNoteMessage } from "../database/IDao";
 @singleton()
 export class UpdateNoteUseCase {
   constructor(
-    @inject(CONSTANTS.REPOSITORY_DEPENDENCY) private repo: IRepository
+    @inject(CONSTANTS.NOTE_REPOSITORY_DEPENDENCY) private repo: INoteRepository
   ) {}
 
   /**
