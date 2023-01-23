@@ -1,7 +1,7 @@
 import { inject, injectable, singleton } from "tsyringe";
-import { CONSTANTS } from "../../core/constants";
-import { INoteRepository } from "../repository/notes/INoteRepository";
-import { NoteType } from "../../data/database/notes/NotesModel";
+import { CONSTANTS } from "../../../core/constants";
+import { INoteRepository } from "../../repository/notes/INoteRepository";
+import { NoteType } from "../../../data/database/notes/NotesModel";
 
 /**
  * Use Case class to get a note by note ID.

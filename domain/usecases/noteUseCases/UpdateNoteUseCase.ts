@@ -1,14 +1,15 @@
 import { inject, injectable, singleton } from "tsyringe";
-import { CONSTANTS } from "../../core/constants";
-import { INoteRepository } from "../repository/notes/INoteRepository";
-import { AlterNoteMessage } from "../database/notes/INoteDao";
+import { CONSTANTS } from "../../../core/constants";
+import { INoteRepository } from "../../repository/notes/INoteRepository";
+import { NoteType } from "../../../data/database/notes/NotesModel";
+import { AlterNoteMessage } from "../../database/notes/INoteDao";
 
 /**
- * Use Case class to update categories of note.
+ * Use Case class to update a note.
  * */
 @injectable()
 @singleton()
-export class UpdateNoteCategoriesUseCase {
+export class UpdateNoteUseCase {
   constructor(
     @inject(CONSTANTS.NOTE_REPOSITORY_DEPENDENCY) private repo: INoteRepository
   ) {}
@@ -16,18 +17,14 @@ export class UpdateNoteCategoriesUseCase {
   /**
    * @param userId Database ID of the user.
    * @param noteIdMobile Mobile database ID of the note.
-   * @param newCategories Updated categories that will be saved.
+   * @param newNote Updated note that will be saved.
    * @returns {Promise<AlterNoteMessage>} Update message of type AlterNoteMessage.
    * */
   async execute(
     userId: string,
     noteIdMobile: string,
-    newCategories: [string]
+    newNote: NoteType
   ): Promise<AlterNoteMessage> {
-    return await this.repo.updateNoteCategories(
-      userId,
-      noteIdMobile,
-      newCategories
-    );
+    return await this.repo.updateNote(userId, noteIdMobile, newNote);
   }
 }

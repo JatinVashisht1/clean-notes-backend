@@ -1,11 +1,11 @@
-import { INoteRepository } from "../../domain/repository/notes/INoteRepository";
-import { NoteType } from "../../data/database/notes/NotesModel";
+import { INoteRepository } from "../../../domain/repository/notes/INoteRepository";
+import { NoteType } from "../../../data/database/notes/NotesModel";
 import { inject, injectable, singleton } from "tsyringe";
-import { CONSTANTS } from "../../core/constants";
+import { CONSTANTS } from "../../../core/constants";
 import {
   AlterNoteMessage,
   INoteDao,
-} from "../../domain/database/notes/INoteDao";
+} from "../../../domain/database/notes/INoteDao";
 import createHttpError from "http-errors";
 
 /**

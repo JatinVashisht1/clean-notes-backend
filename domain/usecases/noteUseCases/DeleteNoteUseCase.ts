@@ -1,7 +1,7 @@
 import { injectable, singleton, inject } from "tsyringe";
-import { CONSTANTS } from "../../core/constants";
-import { AlterNoteMessage } from "../database/notes/INoteDao";
-import { INoteRepository } from "../repository/notes/INoteRepository";
+import { CONSTANTS } from "../../../core/constants";
+import { AlterNoteMessage } from "../../database/notes/INoteDao";
+import { INoteRepository } from "../../repository/notes/INoteRepository";
 
 /**
  * Use Case class to delete a note.

@@ -17,7 +17,7 @@ export class UserDao implements IUserDao {
   }
 
   /**
-   * Method to get User of `UserType` by email.
+   * Method to get User of `UserType` by email with password.
    * @param email {string} email of user.
    * @throws {createHttpError} is thrown if user is not found.
    * @returns {Promise<UserType>} Promise of `UserType`.
@@ -41,7 +41,7 @@ export class UserDao implements IUserDao {
   }
 
   /**
-   * Method to get User of `UserType` by email.
+   * Method to get User of `UserType` by email without password.
    * @param email {string} email of user.
    * @throws {createHttpError} is thrown if user is not found.
    * @returns {Promise<UserType>} Promise of `UserType`.
@@ -166,7 +166,7 @@ export class UserDao implements IUserDao {
   }
 
   /**
-   * Method to insert a new user.
+   * Method to create a new user.
    * @param user {UserType} user of type `UserType` to insert.
    * @returns {Promise<boolean>} true if operation succeeded, false otherwise.
    */
