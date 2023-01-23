@@ -15,6 +15,15 @@ export class UserDao implements IUserDao {
   constructor() {
     this.userModel = UserModel;
   }
+  async userExist(email: string): Promise<boolean> {
+    const user = await this.userModel.findOne({ email: email }).exec();
+
+    if (!user) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   /**
    * Method to get User of `UserType` by email with password.
@@ -173,7 +182,7 @@ export class UserDao implements IUserDao {
   async createUser(user: UserType): Promise<boolean> {
     const newUser = await this.userModel.create(user);
 
-    if (newUser.isNew) {
+    if (newUser) {
       return true;
     } else {
       return false;

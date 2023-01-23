@@ -8,6 +8,7 @@ import { IUserDao } from "../domain/database/users/IUserDao";
 import { UserDao } from "../data/database/users/UserDao";
 import { IUserRepository } from "../domain/repository/users/IUserRepository";
 import { UserRepository } from "../data/repository/users/UserRepository";
+import { CreateUserUseCase } from "../domain/usecases/userUseCases/CreateUserUseCase";
 
 /**
  * registers dependencies for `IDao` and `IRepository`.
@@ -43,4 +44,10 @@ export function getNoteRepository(): INoteRepository {
   );
 
   return repo;
+}
+
+export function getCreateUserUseCase(): CreateUserUseCase {
+  const createUserUseCase = container.resolve(CreateUserUseCase);
+
+  return createUserUseCase;
 }

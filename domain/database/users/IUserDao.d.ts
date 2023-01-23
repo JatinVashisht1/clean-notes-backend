@@ -71,4 +71,11 @@ export type IUserDao = {
    * @returns {boolean} true if operation succeeded, false otherwise.
    */
   removeUser(email: string): Promise<boolean>;
+
+  /**
+   * Method to remove user from database.
+   * @param email {string} email of user.
+   * @returns {boolean} true if user exist, false otherwise.
+   */
+  userExist(email: string): Promise<boolean>;
 };

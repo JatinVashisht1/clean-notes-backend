@@ -10,6 +10,9 @@ const { MONGO_URI } = env;
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 registerDependencies();
 
 mongoose.connect(MONGO_URI).then(() => {

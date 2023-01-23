@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import { inject, injectable, singleton } from "tsyringe";
 import { CONSTANTS } from "../../../core/constants";
 import { IUserDao } from "../../../domain/database/users/IUserDao";
@@ -80,6 +81,11 @@ export class UserRepository implements IUserRepository {
    * @returns {Promise<boolean>} true if operation succeeded, false otherwise.
    */
   async createUser(user: UserType): Promise<boolean> {
+    const userExist = await this.userDao.userExist(user.email);
+
+    if (userExist) {
+      throw createHttpError(400, "User already exist.");
+    }
     return await this.userDao.createUser(user);
   }
 
