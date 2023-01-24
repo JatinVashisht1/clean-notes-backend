@@ -13,6 +13,17 @@ export class UserRepository implements IUserRepository {
   ) {}
 
   /**
+   * Method to check if user exist or note.
+   * @param email {string} email of user.
+   * @returns {Promise<boolean>} true if user exist, false otherwise.
+   */
+  async userExist(email: string): Promise<boolean> {
+    const exist = await this.userDao.userExist(email);
+
+    return exist;
+  }
+
+  /**
    * Method to get User of `UserType` by email with password.
    * @param email {string} email of user.
    * @throws {createHttpError} is thrown if user is not found.

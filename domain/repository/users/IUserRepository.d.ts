@@ -71,4 +71,11 @@ export type IUserRepository = {
    * @returns {boolean} true if operation succeeded, false otherwise.
    */
   removeUser(email: string): Promise<boolean>;
+
+  /**
+   * Method to know if user exist or not.
+   * @param email {string} email of user.
+   * @returns {Promise<boolean>} true if user exist, false otherwise.
+   */
+  userExist(email: string): Promise<boolean>;
 };
