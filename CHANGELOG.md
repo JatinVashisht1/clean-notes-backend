@@ -1,25 +1,6 @@
 #### 1.0.0 (2023-01-30)
 
--Added git conventional commits.
--Implemented constructor injection in all controllers.
--Implemented token insertion logic when signing in and singing up
--Implemented delete all notes by userid method.
--Implemented SignIn and SignUp controllers
--Implemented signup route
--Domain logic is working
--Created UserUseCases for IUserRepository.d.ts.
--Implemented IUserRepository.d.ts in UserRepository.ts
--Implemented IUserDao.d.ts in UserDao.ts.
--Added use cases for each CRUD operation in repository.
--Added use cases for each CRUD operation in repository.
--Completed code documentation for existing codebase
--Resolved dependencies for IDao and IRepository
--Implemented concrete implementation of domain/repository/IRepository.d.ts
--Implemented concrete implementation of domain/repository/IRepository.d.ts
--Implemented IDao and documented the code
--Created type IRepository.
--Created DAO type.
--Project structured
--Project structured
--Project structured
--Installed required dependencies.
+##### Chores
+
+*  Configured git-conventional-commit (d6ead549)
+
