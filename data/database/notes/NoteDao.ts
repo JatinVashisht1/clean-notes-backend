@@ -7,6 +7,7 @@ import { NoteType, NoteModel } from "./NotesModel";
 import { singleton } from "tsyringe";
 import mongoose from "mongoose";
 import { isValidObjectId } from "../../../core/mongooseUtils";
+import { UserModel } from "../users/UsersModel";
 
 /**
  * @implements {IDao}
@@ -15,9 +16,10 @@ import { isValidObjectId } from "../../../core/mongooseUtils";
 export class NoteDao implements INoteDao {
   /** @private */
   NoteModel: typeof NoteModel;
-
+  userModel: typeof UserModel;
   constructor() {
     this.NoteModel = NoteModel;
+    this.userModel = UserModel;
   }
 
   /**
@@ -219,12 +221,39 @@ export class NoteDao implements INoteDao {
    * @returns {boolean} true if user exist in database false if user does not exist in database.
    * */
   async userExist(userId: mongoose.Types.ObjectId): Promise<boolean> {
-    // TODO: 'change this to find user from UserModel later'
-    const user = await this.NoteModel.findOne({ savedBy: userId }).exec();
+    const user = await this.userModel.findOne({ _id: userId });
 
     if (!user) {
       return false;
+    } else {
+      return true;
     }
-    return true;
+  }
+
+  /**
+   * Method to delete all notes associated with `userId`
+   * @param userId Database ID of the user.
+   * @returns {Promise<AlterNoteMessage>} Update message of the type AlterNoteMessage.
+   * @throws createHttpError if user is not found.
+   * */
+  async deleteAllNotes(userId: string): Promise<AlterNoteMessage> {
+    isValidObjectId(userId);
+
+    const userIdMongoose = new mongoose.Types.ObjectId(userId);
+
+    const userExist = await this.userExist(userIdMongoose);
+
+    if (!userExist) {
+      throw createHttpError(404, "User not found.");
+    }
+
+    const result = await this.NoteModel.deleteMany({ savedBy: userId });
+
+    const alterNoteMessage: AlterNoteMessage = {
+      acknowledged: true,
+      rowsAffected: result.deletedCount,
+    };
+
+    return alterNoteMessage;
   }
 }

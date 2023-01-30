@@ -184,4 +184,16 @@ export class NoteRepository implements INoteRepository {
 
     return result;
   }
+
+  /**
+   * Method to delete all notes associated with `userId`
+   * @param userId Database ID of the user.
+   * @returns {Promise<AlterNoteMessage>} Update message of the type AlterNoteMessage.
+   * @throws createHttpError if user is not found.
+   * */
+  async deleteAllNotes(userId: string): Promise<AlterNoteMessage> {
+    const result = await this.dao.deleteAllNotes(userId);
+
+    return result;
+  }
 }

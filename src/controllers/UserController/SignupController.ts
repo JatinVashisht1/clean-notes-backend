@@ -17,7 +17,7 @@ interface SignupBody {
  * Controller to handle **`SignUp`** logic of the application.
  */
 @injectable()
-export class SignupController {
+export class SignUpController {
   createUserUseCase: CreateUserUseCase;
   constructor() {
     // registerDependencies();

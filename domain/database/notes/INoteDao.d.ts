@@ -47,4 +47,11 @@ export type INoteDao = {
    * @returns {Promise<AlterNoteMessage>} Update message of the type AlterNoteMessage.
    * */
   deleteNote(userId: string, noteIdMobile: string): Promise<AlterNoteMessage>;
+
+  /**
+   * Method to delete all notes associated with `userId`
+   * @param userId Database ID of the user.
+   * @returns {Promise<AlterNoteMessage>} Update message of the type AlterNoteMessage.
+   * */
+  deleteAllNotes(userId: string): Promise<AlterNoteMessage>;
 };
