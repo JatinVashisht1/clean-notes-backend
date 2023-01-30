@@ -13,6 +13,9 @@ interface SignupBody {
   password?: string;
 }
 
+/**
+ * Controller to handle **`SignUp`** logic of the application.
+ */
 @injectable()
 export class SignupController {
   createUserUseCase: CreateUserUseCase;
@@ -21,6 +24,13 @@ export class SignupController {
     this.createUserUseCase = getCreateUserUseCase();
   }
 
+  /**
+   * Arrow function to handle request for *`api/users/signup`* route.
+   * @param req Express HTTP Request object to handle incoming request.
+   * @param res Express HTTP Response object to handle response of request.
+   * @param next NextFunction to call middleware.
+   * @throws createHttpError if insufficient or wrong credentials are supplied.
+   */
   // eslint-disable-next-line prettier/prettier
   signupHandler: RequestHandler<unknown, unknown, SignupBody, unknown> = async (req, res, next) => {
     try {

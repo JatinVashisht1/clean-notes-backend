@@ -33,12 +33,14 @@ export class UserDao implements IUserDao {
    */
   async getUserByEmailWithPassword(email: string): Promise<UserType> {
     const userDoc = await this.userModel
-      .findOne({ email }, "email password fromGoogle")
+      .findOne({ email }, "password fromGoogle")
       .exec();
 
     if (!userDoc) {
       throw createHttpError(404, "User not found.");
     }
+
+    // console.log(`userdoc is ${JSON.stringify(userDoc)}`);
 
     const userType: UserType = {
       email,

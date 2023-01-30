@@ -14,7 +14,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/user", UserRoutes);
+app.use("/api/users", UserRoutes);
 
 app.use((_req, _res, next) => {
   next(createHttpError(404, "Endpoint not found"));
@@ -32,4 +32,5 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   }
   return res.status(statusCode).json({ success: false, message: errorMessage });
 });
+
 export default app;

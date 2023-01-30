@@ -11,6 +11,7 @@ import { UserRepository } from "../data/repository/users/UserRepository";
 import { CreateUserUseCase } from "../domain/usecases/userUseCases/CreateUserUseCase";
 import { UserExistUseCase } from "../domain/usecases/userUseCases/UserExistUseCase";
 import { TokenExistUseCase } from "../domain/usecases/userUseCases/TokenExistUseCase";
+import { GetUserByEmailWithPasswordUseCase } from "../domain/usecases/userUseCases/GetUserByEmailWithPasswordUseCase";
 
 /**
  * registers dependencies for `IDao` and `IRepository`.
@@ -66,4 +67,12 @@ export function getTokenExistUseCase(): TokenExistUseCase {
   const tokenExistUseCase = container.resolve(TokenExistUseCase);
 
   return tokenExistUseCase;
+}
+
+export function getGetUserByEmailWithPasswordUseCase(): GetUserByEmailWithPasswordUseCase {
+  const getEmailWithPasswordUseCase = container.resolve(
+    GetUserByEmailWithPasswordUseCase
+  );
+
+  return getEmailWithPasswordUseCase;
 }

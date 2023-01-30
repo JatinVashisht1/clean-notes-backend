@@ -6,8 +6,14 @@ import { InferSchemaType, model, Schema } from "mongoose";
  * Password will be stored in the form of salt and hash.
  */
 const passwordType = new Schema({
-  salt: String,
-  hash: String,
+  salt: {
+    type: String,
+    select: true,
+  },
+  hash: {
+    type: String,
+    select: true,
+  },
 });
 
 /**
