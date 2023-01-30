@@ -1,21 +1,17 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import { injectable } from "tsyringe";
-import {
-  getGetNotesUseCase,
-  getGetUserIdUseCase,
-} from "../../../di/registerDependencies";
+import { autoInjectable, injectable } from "tsyringe";
 import { GetNotesUseCase } from "../../../domain/usecases/noteUseCases/GetNotesUseCase";
 import { GetUserIdUseCase } from "../../../domain/usecases/userUseCases/GetUserIdUseCase";
+import { assertIsDefined } from "../../utils/assertIsDefined";
 
 @injectable()
+@autoInjectable()
 export class GetAllNotesController {
-  private getNotesUseCase: GetNotesUseCase;
-  private getUserIdUseCase: GetUserIdUseCase;
-  constructor() {
-    this.getUserIdUseCase = getGetUserIdUseCase();
-    this.getNotesUseCase = getGetNotesUseCase();
-  }
+  constructor(
+    private getNotesUseCase?: GetNotesUseCase,
+    private getUserIdUseCase?: GetUserIdUseCase
+  ) {}
 
   getAllNotesHandler: RequestHandler = async (req, res, next) => {
     try {
@@ -26,6 +22,9 @@ export class GetAllNotesController {
       }
 
       email = email.toString();
+
+      assertIsDefined(this.getNotesUseCase);
+      assertIsDefined(this.getUserIdUseCase);
 
       const userId = await this.getUserIdUseCase.execute(email);
 

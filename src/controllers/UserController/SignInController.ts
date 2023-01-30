@@ -1,14 +1,10 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import { injectable } from "tsyringe";
-import {
-  getGetUserByEmailWithPasswordUseCase,
-  getInsertTokenUseCase,
-  getUserExistUseCase,
-} from "../../../di/registerDependencies";
+import { autoInjectable, injectable } from "tsyringe";
 import { GetUserByEmailWithPasswordUseCase } from "../../../domain/usecases/userUseCases/GetUserByEmailWithPasswordUseCase";
 import { InsertTokenUseCase } from "../../../domain/usecases/userUseCases/InsertTokenUseCase";
 import { UserExistUseCase } from "../../../domain/usecases/userUseCases/UserExistUseCase";
+import { assertIsDefined } from "../../utils/assertIsDefined";
 import { issueJWT, passwordType, validPassword } from "../../utils/jwtUtil";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -21,18 +17,16 @@ interface signInBody {
  * Controller to handle **`SignIn`** logic of the application.
  */
 @injectable()
+@autoInjectable()
 export class SignInController {
-  userExistUseCase: UserExistUseCase;
-  getUserByEmailWithPasswordUseCase: GetUserByEmailWithPasswordUseCase;
-  insertTokenUseCase: InsertTokenUseCase;
-  constructor() {
-    this.userExistUseCase = getUserExistUseCase();
-
-    this.getUserByEmailWithPasswordUseCase =
-      getGetUserByEmailWithPasswordUseCase();
-
-    this.insertTokenUseCase = getInsertTokenUseCase();
-  }
+  // userExistUseCase: UserExistUseCase;
+  // getUserByEmailWithPasswordUseCase: GetUserByEmailWithPasswordUseCase;
+  // insertTokenUseCase: InsertTokenUseCase;
+  constructor(
+    private userExistUseCase?: UserExistUseCase,
+    private getUserByEmailWithPasswordUseCase?: GetUserByEmailWithPasswordUseCase,
+    private insertTokenUseCase?: InsertTokenUseCase
+  ) {}
 
   /**
    * Arrow function to handle request for *`api/users/signin`* route.
@@ -49,6 +43,10 @@ export class SignInController {
       if (!email || !password) {
         throw createHttpError(400, "Insufficient credentials.");
       }
+
+      assertIsDefined(this.userExistUseCase);
+      assertIsDefined(this.getUserByEmailWithPasswordUseCase);
+      assertIsDefined(this.insertTokenUseCase);
 
       const userExist = await this.userExistUseCase.execute(email);
 
