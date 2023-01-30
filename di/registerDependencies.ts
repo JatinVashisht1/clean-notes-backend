@@ -12,6 +12,9 @@ import { CreateUserUseCase } from "../domain/usecases/userUseCases/CreateUserUse
 import { UserExistUseCase } from "../domain/usecases/userUseCases/UserExistUseCase";
 import { TokenExistUseCase } from "../domain/usecases/userUseCases/TokenExistUseCase";
 import { GetUserByEmailWithPasswordUseCase } from "../domain/usecases/userUseCases/GetUserByEmailWithPasswordUseCase";
+import { GetUserIdUseCase } from "../domain/usecases/userUseCases/GetUserIdUseCase";
+import { GetNotesUseCase } from "../domain/usecases/noteUseCases/GetNotesUseCase";
+import { InsertTokenUseCase } from "../domain/usecases/userUseCases/InsertTokenUseCase";
 
 /**
  * registers dependencies for `IDao` and `IRepository`.
@@ -75,4 +78,22 @@ export function getGetUserByEmailWithPasswordUseCase(): GetUserByEmailWithPasswo
   );
 
   return getEmailWithPasswordUseCase;
+}
+
+export function getGetUserIdUseCase(): GetUserIdUseCase {
+  const getUserIdUseCase = container.resolve(GetUserIdUseCase);
+
+  return getUserIdUseCase;
+}
+
+export function getGetNotesUseCase(): GetNotesUseCase {
+  const getNotesUseCase = container.resolve(GetNotesUseCase);
+
+  return getNotesUseCase;
+}
+
+export function getInsertTokenUseCase() {
+  const insertTokenUseCase = container.resolve(InsertTokenUseCase);
+
+  return insertTokenUseCase;
 }

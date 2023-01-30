@@ -3,9 +3,11 @@ import createHttpError from "http-errors";
 import { injectable } from "tsyringe";
 import {
   getGetUserByEmailWithPasswordUseCase,
+  getInsertTokenUseCase,
   getUserExistUseCase,
 } from "../../../di/registerDependencies";
 import { GetUserByEmailWithPasswordUseCase } from "../../../domain/usecases/userUseCases/GetUserByEmailWithPasswordUseCase";
+import { InsertTokenUseCase } from "../../../domain/usecases/userUseCases/InsertTokenUseCase";
 import { UserExistUseCase } from "../../../domain/usecases/userUseCases/UserExistUseCase";
 import { issueJWT, passwordType, validPassword } from "../../utils/jwtUtil";
 
@@ -22,10 +24,14 @@ interface signInBody {
 export class SignInController {
   userExistUseCase: UserExistUseCase;
   getUserByEmailWithPasswordUseCase: GetUserByEmailWithPasswordUseCase;
+  insertTokenUseCase: InsertTokenUseCase;
   constructor() {
     this.userExistUseCase = getUserExistUseCase();
+
     this.getUserByEmailWithPasswordUseCase =
       getGetUserByEmailWithPasswordUseCase();
+
+    this.insertTokenUseCase = getInsertTokenUseCase();
   }
 
   /**
@@ -75,7 +81,16 @@ export class SignInController {
 
       const jwt = issueJWT(email);
 
-      return res.status(200).json({ success: true, message: jwt });
+      const tokenInserted = await this.insertTokenUseCase.execute(
+        email,
+        jwt.token
+      );
+
+      if (tokenInserted) {
+        return res.status(200).json({ success: true, message: jwt });
+      } else {
+        throw createHttpError(500, "Unable to sign in user.");
+      }
     } catch (error) {
       next(error);
     }

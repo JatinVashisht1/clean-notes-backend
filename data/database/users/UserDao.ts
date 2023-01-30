@@ -122,7 +122,7 @@ export class UserDao implements IUserDao {
 
     const updateResult = await this.userModel
       .findOne({ email: email })
-      .update(userType)
+      .updateOne(userType)
       .exec();
 
     if (updateResult.acknowledged) {

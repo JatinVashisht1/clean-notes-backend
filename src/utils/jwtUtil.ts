@@ -94,6 +94,7 @@ export const authMiddleware: RequestHandler = async (req, res, next) => {
   try {
     const tokenPartsString = req.headers.authorization;
 
+    // console.log(`token is ${tokenPartsString}`);
     if (!tokenPartsString) {
       throw createHttpError(401, "you are not authorized to visit this route.");
     }
@@ -110,10 +111,13 @@ export const authMiddleware: RequestHandler = async (req, res, next) => {
         });
 
         const email = verification["sub"]?.toString() || "";
+
         const tokenExist = await getTokenExistUseCase().execute(
           email,
           tokenPartsString
         );
+
+        // console.log(`token exist is ${tokenExist}`);
 
         if (!tokenExist) {
           throw Error("Token not found");
@@ -125,7 +129,7 @@ export const authMiddleware: RequestHandler = async (req, res, next) => {
 
         next();
       } catch (error) {
-        // console.log('error occured', error.message)
+        // console.log(`error occured, ${error.message}`);
         // return res.status(401).json({ success: false, msg: "you are not authorized to visit this route" });
         next(
           createHttpError(401, "you are not authorized to visit this route")

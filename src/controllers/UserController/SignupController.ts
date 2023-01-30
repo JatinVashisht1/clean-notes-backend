@@ -3,8 +3,12 @@ import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import { injectable } from "tsyringe";
 import { UserType } from "../../../data/database/users/UsersModel";
-import { getCreateUserUseCase } from "../../../di/registerDependencies";
+import {
+  getCreateUserUseCase,
+  getInsertTokenUseCase,
+} from "../../../di/registerDependencies";
 import { CreateUserUseCase } from "../../../domain/usecases/userUseCases/CreateUserUseCase";
+import { InsertTokenUseCase } from "../../../domain/usecases/userUseCases/InsertTokenUseCase";
 import * as jwtUtil from "../../utils/jwtUtil";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -19,9 +23,11 @@ interface SignupBody {
 @injectable()
 export class SignUpController {
   createUserUseCase: CreateUserUseCase;
+  insertTokenUseCase: InsertTokenUseCase;
   constructor() {
     // registerDependencies();
     this.createUserUseCase = getCreateUserUseCase();
+    this.insertTokenUseCase = getInsertTokenUseCase();
   }
 
   /**
@@ -52,6 +58,8 @@ export class SignUpController {
 
       if (userCreated) {
         const jwt = jwtUtil.issueJWT(email);
+
+        await this.insertTokenUseCase.execute(email, jwt.token);
 
         return res.status(200).json({
           success: true,
