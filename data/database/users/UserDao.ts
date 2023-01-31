@@ -140,7 +140,9 @@ export class UserDao implements IUserDao {
    * @returns {Promise<boolean>} true if operation succeeded, false otherwise.
    */
   async removeToken(email: string, token: string): Promise<boolean> {
-    const userDoc = await this.userModel.findOne({ email: email }).exec();
+    const userDoc = await this.userModel
+      .findOne({ email: email }, "+tokens")
+      .exec();
 
     if (!userDoc) {
       throw createHttpError(404, "User not found.");

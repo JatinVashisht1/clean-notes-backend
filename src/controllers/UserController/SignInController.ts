@@ -19,9 +19,6 @@ interface signInBody {
 @injectable()
 @autoInjectable()
 export class SignInController {
-  // userExistUseCase: UserExistUseCase;
-  // getUserByEmailWithPasswordUseCase: GetUserByEmailWithPasswordUseCase;
-  // insertTokenUseCase: InsertTokenUseCase;
   constructor(
     private userExistUseCase?: UserExistUseCase,
     private getUserByEmailWithPasswordUseCase?: GetUserByEmailWithPasswordUseCase,
@@ -29,7 +26,9 @@ export class SignInController {
   ) {}
 
   /**
-   * Arrow function to handle request for *`api/users/signin`* route.
+   * Arrow function (request handler) to handle sign in request.
+   *
+   * Handles route *`api/users/signin`*
    * @param req Express HTTP Request object to handle incoming request.
    * @param res Express HTTP Response object to handle response of request.
    * @param next NextFunction to call middleware.
