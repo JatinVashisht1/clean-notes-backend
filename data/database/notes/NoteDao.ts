@@ -73,6 +73,7 @@ export class NoteDao implements INoteDao {
         body: noteDb.body,
         categories: noteDb.categories,
         noteIdMobile: noteDb.noteIdMobile,
+        tags: noteDb.tags,
       };
 
       notes.push(note);
