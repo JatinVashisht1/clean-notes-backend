@@ -1,14 +1,11 @@
 /* eslint-disable object-shorthand */
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import { injectable } from "tsyringe";
+import { autoInjectable, injectable } from "tsyringe";
 import { UserType } from "../../../data/database/users/UsersModel";
-import {
-  getCreateUserUseCase,
-  getInsertTokenUseCase,
-} from "../../../di/registerDependencies";
 import { CreateUserUseCase } from "../../../domain/usecases/userUseCases/CreateUserUseCase";
 import { InsertTokenUseCase } from "../../../domain/usecases/userUseCases/InsertTokenUseCase";
+import { assertIsDefined } from "../../utils/assertIsDefined";
 import * as jwtUtil from "../../utils/jwtUtil";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -21,17 +18,17 @@ interface SignupBody {
  * Controller to handle **`SignUp`** logic of the application.
  */
 @injectable()
+@autoInjectable()
 export class SignUpController {
-  createUserUseCase: CreateUserUseCase;
-  insertTokenUseCase: InsertTokenUseCase;
-  constructor() {
-    // registerDependencies();
-    this.createUserUseCase = getCreateUserUseCase();
-    this.insertTokenUseCase = getInsertTokenUseCase();
-  }
+  constructor(
+    private createUserUseCase?: CreateUserUseCase,
+    private insertTokenUseCase?: InsertTokenUseCase
+  ) {}
 
   /**
-   * Arrow function to handle request for *`api/users/signup`* route.
+   * Arrow function (request handler) to handle sign up request.
+   *
+   * Handles route *`api/users/signup`*
    * @param req Express HTTP Request object to handle incoming request.
    * @param res Express HTTP Response object to handle response of request.
    * @param next NextFunction to call middleware.
@@ -45,6 +42,9 @@ export class SignUpController {
       if (!email || !password) {
         throw createHttpError(400, "Insufficient credentials.");
       }
+
+      assertIsDefined(this.createUserUseCase);
+      assertIsDefined(this.insertTokenUseCase);
 
       const passwordHashed = jwtUtil.genPassword(password);
 
