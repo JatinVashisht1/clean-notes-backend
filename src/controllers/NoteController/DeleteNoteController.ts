@@ -3,6 +3,7 @@ import createHttpError from "http-errors";
 import { autoInjectable } from "tsyringe";
 import { DeleteNoteUseCase } from "../../../domain/usecases/noteUseCases/DeleteNoteUseCase";
 import { GetUserIdUseCase } from "../../../domain/usecases/userUseCases/GetUserIdUseCase";
+import { assertIsDefined } from "../../utils/assertIsDefined";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 interface DeleteNoteBody {
@@ -47,9 +48,9 @@ export class DeleteNoteController {
           throw createHttpError(404, "User ID is not found.");
         }
 
-        if (!this.deleteNoteUseCase || !this.getUserIdUseCase) {
-          throw createHttpError(500, "Something went wrong.");
-        }
+        assertIsDefined(this.getUserIdUseCase);
+
+        assertIsDefined(this.deleteNoteUseCase);
 
         const userEmail = jwt.sub.toString();
 

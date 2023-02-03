@@ -2,6 +2,7 @@ import { Router } from "express";
 import { CreateNoteController } from "../controllers/NoteController/CreateNoteController";
 import { DeleteNoteController } from "../controllers/NoteController/DeleteNoteController";
 import { GetAllNotesController } from "../controllers/NoteController/GetAllNotesController";
+import { GetNoteByIdController } from "../controllers/NoteController/GetNoteByIdController";
 import { authMiddleware } from "../utils/jwtUtil";
 
 const router = Router();
@@ -10,6 +11,12 @@ router.get(
   "/all",
   authMiddleware,
   new GetAllNotesController().getAllNotesHandler
+);
+
+router.get(
+  "/get",
+  authMiddleware,
+  new GetNoteByIdController().getNoteByIdHandler
 );
 
 router.post(
