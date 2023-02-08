@@ -21,7 +21,7 @@ export class DeleteNoteController {
   ) {}
 
   /**
-   * Request Handler to handle *`api/notes/deleteNote`* request.
+   * Request Handler to handle *`api/notes/delete`* request.
    *
    * Delete note by mobile database id of note.
    * @param req Express HTTP request object.

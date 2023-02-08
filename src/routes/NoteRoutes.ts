@@ -3,6 +3,7 @@ import { CreateNoteController } from "../controllers/NoteController/CreateNoteCo
 import { DeleteNoteController } from "../controllers/NoteController/DeleteNoteController";
 import { GetAllNotesController } from "../controllers/NoteController/GetAllNotesController";
 import { GetNoteByIdController } from "../controllers/NoteController/GetNoteByIdController";
+import { UpdateNoteController } from "../controllers/NoteController/UpdateNoteController";
 import { authMiddleware } from "../utils/jwtUtil";
 
 const router = Router();
@@ -26,9 +27,15 @@ router.post(
 );
 
 router.delete(
-  "/deleteNote",
+  "/delete",
   authMiddleware,
   new DeleteNoteController().deleteNoteHandler
+);
+
+router.put(
+  "/update",
+  authMiddleware,
+  new UpdateNoteController().updateNoteHandler
 );
 
 export default router;

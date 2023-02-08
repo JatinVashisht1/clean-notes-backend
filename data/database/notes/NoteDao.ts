@@ -154,6 +154,8 @@ export class NoteDao implements INoteDao {
       .update(newNote)
       .exec();
 
+    // console.log(`note result on updation: ${JSON.stringify(note)}`);
+
     if (note.acknowledged && note.matchedCount > 0 && note.modifiedCount > 0) {
       return {
         acknowledged: true,
@@ -164,7 +166,7 @@ export class NoteDao implements INoteDao {
       (note.matchedCount == 0 || note.modifiedCount == 0)
     ) {
       return {
-        acknowledged: true,
+        acknowledged: false,
         rowsAffected: 0,
       };
     } else {
